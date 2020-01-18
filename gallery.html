@@ -9,9 +9,17 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/eclipse.css">
+    <link href="/node_modules/lightbox2/dist/css/lightbox.min.css" rel="stylesheet" />
 </head>
 
 <body>
+    <a class="example-image-link" 
+        href="images/1.jpg" 
+        data-lightbox="example-set" 
+        data-title="Привіт усім друзям">
+        <img class="example-image" src="images/1s.jpg" alt="Фото Семена">
+    </a>
+
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="/">Буратіно</a>
@@ -80,13 +88,6 @@
         </div>
     </div>
 
-
-
-
-    <!-- <table>
-        
-    </table> -->
-
     <div class="eclipse d-none" id="dlgProgress">
         <div class="progress">
             <div>
@@ -100,7 +101,7 @@
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-
+    <script src="/node_modules/lightbox2/dist/js/lightbox.min.js"></script>
 
     <script>
         window.onload = function () {
