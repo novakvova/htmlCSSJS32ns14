@@ -41,14 +41,14 @@
                     <input type="text" class="form-control" id="phone">
 
                 </div>
-
+                <img src="" id="userImagePrev" alt="ваше фото" width="300">;
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="validatedCustomFile">
-                    <label class="custom-file-label" for="validatedCustomFile">Оберіть фото</label>
+                    <input type="file" class="custom-file-input" id="userImage">
+                    <label class="custom-file-label" for="userImage" id="UserImageName">Оберіть фото</label>
                     <!-- <div class="invalid-feedback">Example invalid custom file feedback</div> -->
                 </div>
 
-            
+
                 <div class="form-group">
                     <label for="password">Пароль</label>
                     <input type="password" class="form-control" id="password">
@@ -87,38 +87,62 @@
 
     <script>
         //window.onload = function () {
-            //alert("Hello Peter");
-            //var dlg=document.getElementById("dlgProgress");
+        //alert("Hello Peter");
+        //var dlg=document.getElementById("dlgProgress");
 
-            //var dlg = document.querySelector("#dlgProgress");
-            //dlg.classList.add("d-none");
+        //var dlg = document.querySelector("#dlgProgress");
+        //dlg.classList.add("d-none");
         //}
         //window.onload
-        $(function() {
-            let phone=$("#phone");
+        $(function () {
+            //select image
+            $('#userImage').on("change",
+                function (e) {
+                    let files = e.target.files;
+                    if (files && files[0]) {
+                        $("#UserImageName").html(files[0].name);
+                        let reader = new FileReader();
+                        reader.onload=function() {
+                            //alert("read image completed");
+                            //alert(reader.result);
+                            $("#userImagePrev").attr("src", reader.result);
+                        };
+                        reader.readAsDataURL(files[0]);
+                        //alert(files[0].name);
+                        //alert("Select image");
+                    }
+                    else
+                        alert("Оберіть файл");
+                }
+            );
+
+
+
+
+            let phone = $("#phone");
             phone.inputmask("+38 (099) 999 99 99");  //static mask
-            
+
             //alert("Hello window");
             //document.getElementById("formRegister");
             let form = $("#formRegister");
-            form.on("submit", function(e) {
+            form.on("submit", function (e) {
                 e.preventDefault(); //відмінити стандартну поведінку для елемента (відправка форми)
-                if(validPhone("phone")){
+                if (validPhone("phone")) {
 
                 }
+
                 //alert("Submit form");
                 //Валідація даних
             });
 
             function validPhone(id) {
-                let phone=$(`#${id}`);
+                let phone = $(`#${id}`);
                 const regex_phone = /^(?=\+?([0-9]{2})\s\(?([0-9]{3})\)\s?([0-9]{3})\s?([0-9]{2})\s?([0-9]{2})).{19}$/;
-                let phone_val=phone.val();
+                let phone_val = phone.val();
                 let errorClass = "invalid-feedback";
-                let parent=phone.parent("div");
+                let parent = phone.parent("div");
                 parent.find(`.${errorClass}`).remove();
-                if(phone.val()=="")
-                {
+                if (phone.val() == "") {
                     phone.addClass("is-invalid");
                     parent.append(`
                     <div class="${errorClass}">
@@ -127,8 +151,7 @@
                     `);
                     return false;
                 }
-                else if(!regex_phone.test(phone_val)) 
-                {
+                else if (!regex_phone.test(phone_val)) {
                     phone.addClass("is-invalid");
                     parent.append(`
                     <div class="${errorClass}">
