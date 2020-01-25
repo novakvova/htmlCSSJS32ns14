@@ -38,7 +38,8 @@
             <form id="formRegister" class="col-md-6 offset-md-3">
                 <div class="form-group">
                     <label for="phone">Телефон</label>
-                    <input type="text" class="form-control" id=phone>
+                    <input type="text" class="form-control" id="phone">
+
                 </div>
 
                 <div class="custom-file">
@@ -81,6 +82,8 @@
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 
+    <script src="node_modules/inputmask/dist/jquery.inputmask.min.js"></script>
+
 
     <script>
         //window.onload = function () {
@@ -92,13 +95,54 @@
         //}
         //window.onload
         $(function() {
-            alert("Hello window");
+            let phone=$("#phone");
+            phone.inputmask("+38 (099) 999 99 99");  //static mask
+            
+            //alert("Hello window");
             //document.getElementById("formRegister");
             let form = $("#formRegister");
-            form.on("submit", function() {
-                alert("Submit form");
+            form.on("submit", function(e) {
+                e.preventDefault(); //відмінити стандартну поведінку для елемента (відправка форми)
+                if(validPhone("phone")){
+
+                }
+                //alert("Submit form");
                 //Валідація даних
             });
+
+            function validPhone(id) {
+                let phone=$(`#${id}`);
+                const regex_phone = /^(?=\+?([0-9]{2})\s\(?([0-9]{3})\)\s?([0-9]{3})\s?([0-9]{2})\s?([0-9]{2})).{19}$/;
+                let phone_val=phone.val();
+                let errorClass = "invalid-feedback";
+                let parent=phone.parent("div");
+                parent.find(`.${errorClass}`).remove();
+                if(phone.val()=="")
+                {
+                    phone.addClass("is-invalid");
+                    parent.append(`
+                    <div class="${errorClass}">
+                        Поле телефон не можу бути постим
+                    </div>
+                    `);
+                    return false;
+                }
+                else if(!regex_phone.test(phone_val)) 
+                {
+                    phone.addClass("is-invalid");
+                    parent.append(`
+                    <div class="${errorClass}">
+                        Не вірний формат номера
+                    </div>
+                    `);
+                    return false;
+                }
+                else {
+                    phone.removeClass("is-invalid");
+                    phone.addClass("is-valid");
+                    return true;
+                }
+            }
         });
 
         // $(document).ready(function(){
